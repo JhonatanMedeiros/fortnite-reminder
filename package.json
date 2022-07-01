@@ -2,9 +2,11 @@
   "name": "fortnite-reminder",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "dist/index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "node dist/index.js",
+    "start:ts": "ts-node src/index.ts",
+		"build": "tsc --project ./tsconfig.build.json"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  fortnite-reminder:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: "fortnite-reminder"
+    environment:
+      TELEGRAM_TOKEN: ""
+      TELEGRAM_CHAT_ID: ""
