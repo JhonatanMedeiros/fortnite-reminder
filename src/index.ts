@@ -1,9 +1,11 @@
 import 'dotenv/config'
+import cron from 'cron';
 import FortniteAPI, { getItemsFromShop } from './FortniteAPI';
 import TelegramAlert from './telegram';
+
 import { hasItemInShop } from './reminder';
 
-const main = async () => {
+const start = async () => {
 	try {
 		const response = await FortniteAPI.shop();
 		const { data } = response;
@@ -23,4 +25,9 @@ const main = async () => {
 
 }
 
-main();
+const job = new cron.CronJob('1 9 * * *', async () => {
+	await TelegramAlert.sendMessage('Checking for items in the shop');
+	await start();
+});
+job.start();
+
