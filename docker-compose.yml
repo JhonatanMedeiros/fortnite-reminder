@@ -6,6 +6,3 @@ services:
         dockerfile: Dockerfile
     restart: unless-stopped
     container_name: "fortnite-reminder"
-    environment:
-      TELEGRAM_TOKEN: ""
-      TELEGRAM_CHAT_ID: ""
