@@ -6,3 +6,8 @@ services:
         dockerfile: Dockerfile
     restart: unless-stopped
     container_name: "fortnite-reminder"
+    ports:
+      - 3000:3000
+    environment:
+      NODE_ENV: "production"
+      PORT: "3000"
