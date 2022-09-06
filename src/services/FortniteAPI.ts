@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FortniteAPI_SHOP, FortniteAPI_SHOP_Item } from './types';
+import { FortniteAPI_SHOP, FortniteAPI_SHOP_Item } from '../types';
 
 const BASE_URL = 'https://fortnite-api.com';
 const api = axios.create({ baseURL: BASE_URL });
