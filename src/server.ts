@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import http from 'http';
 
 import { job } from './cron';
@@ -17,9 +18,13 @@ Server.on('close', () => 'Fortnite Reminder API on close');
 Server.on('listening', () => {
 	console.log(`FORTNITE REMINDER API is listen on PORT ${PORT} in mode ${process.env.NODE_ENV}`);
 
+	console.log(process.env.REMINDER_ITEMS);
+	console.log(process.env.TZ);
+	console.log(new Date().toLocaleString('pt-BR'));
+
 	console.log('Job initialized');
 	job.start();
-	console.log('is job running? ', job.running);
+	console.log('is job running? ', job.running || false);
 });
 
 

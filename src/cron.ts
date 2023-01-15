@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import cron from 'cron';
 import FortniteAPI, { getItemsFromShop } from './services/FortniteAPI';
 import TelegramAlert from './telegram';
@@ -30,7 +29,6 @@ const start = async () => {
 
 }
 
-// console.log('Job initialized');
 const job = new cron.CronJob(CRON_JOB, async () => {
 	console.log('Starting job...');
 
@@ -47,11 +45,7 @@ const job = new cron.CronJob(CRON_JOB, async () => {
 
 	const endJobDate = new Date();
 	console.log('Ended Job:', endJobDate);
-});
-
-// job.start();
-
-// console.log('is job running? ', job.running);
+}, null, false, process.env.TZ || '');
 
 export {
 	job

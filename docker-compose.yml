@@ -11,3 +11,7 @@ services:
     environment:
       NODE_ENV: "production"
       PORT: "3000"
+      TELEGRAM_TOKEN: ""
+      TELEGRAM_CHAT_ID: ""
+      TZ: "America/Sao_Paulo"
+      REMINDER_ITEMS: "EID_KitchenNavigator"
