@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+	provider = "index-client-js"
+}
+
+datasource db {
+	provider = "sqlite"
+	url      = env("DATABASE_URL")
+}
+
+model Chat {
+	id         Int            @id @default(autoincrement())
+	telegramId BigInt         @unique @map("telegram_id")
+	name       String?
+	items      ItemReminder[]
+	updatedAt  DateTime       @updatedAt @map("updated_at")
+	createdAt  DateTime       @default(now()) @map("created_at")
+}
+
+model ItemReminder {
+	id               Int      @id @default(autoincrement())
+	itemId           Int      @unique
+	name             String
+	description      String
+	shortDescription String
+	type             String
+	series           String
+	imageSmallIcon   String?
+	imageIcon        String?
+	imageFeatured    String?
+	updatedAt        DateTime @updatedAt @map("updated_at")
+	createdAt        DateTime @default(now()) @map("created_at")
+
+	chat   Chat @relation(fields: [chatId], references: [id])
+	chatId Int
+}
