@@ -2,12 +2,12 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-	provider = "index-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-	provider = "sqlite"
-	url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model Chat {
@@ -36,3 +36,4 @@ model ItemReminder {
 	chat   Chat @relation(fields: [chatId], references: [id])
 	chatId Int
 }
+

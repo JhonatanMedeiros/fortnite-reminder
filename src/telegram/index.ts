@@ -1,9 +1,20 @@
-import { Bot } from 'grammy';
+import { Bot as TelegramBot } from "grammy";
 
-const { TELEGRAM_TOKEN } = process.env;
+import { config } from '../config';
+import { CustomContext } from './context';
+
+
+import { updatesLoggerMiddleware } from './middlewares/updates-logger.middleware';
+import { setUserMiddleware } from './middlewares/set-user.middleware';
 
 export const createBot = () => {
-	const bot = new Bot(TELEGRAM_TOKEN as string);
+	const bot = new TelegramBot<CustomContext>(config.TELEGRAM_TOKEN);
+
+	if (config.isDev) {
+		bot.use(updatesLoggerMiddleware)
+	}
+
+	bot.use(setUserMiddleware)
 
 	// Handle the /start command.
 	bot.command('start', (ctx) => ctx.reply('Welcome! Up and running.'));

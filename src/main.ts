@@ -1,19 +1,31 @@
 import 'dotenv/config'
+import { once } from 'events';
 import { createServer } from './server';
 import { createBot } from './telegram';
 import { prisma } from './prisma';
+import { logger } from './logger';
+import { createJob } from './cron';
 
 async function main() {
 	const bot = createBot();
 	await bot.init();
 
+	const job = createJob({ bot })
+
+	job.start();
+	logger.info({
+		msg: '::JOB:: Is job running',
+		running: job.running || false,
+	})
+
 	const { server, port } = createServer({
-		bot
+		bot,
+		job
 	});
 
 	// Graceful shutdown
 	prisma.$on('beforeExit', async () => {
-		console.info('shutdown');
+		logger.info("shutdown");
 
 		await bot.stop();
 		await server.close();
@@ -21,11 +33,12 @@ async function main() {
 
 	await prisma.$connect();
 
-	await server.listen(port);
+	const listenServer = server.listen(port);
+	await once(listenServer, 'listening');
 
 	await bot.start({
 		onStart: ({ username }) =>
-			console.info({
+			logger.info({
 				msg: 'bot running...',
 				username,
 			}),
@@ -33,9 +46,9 @@ async function main() {
 }
 
 main().catch(err => {
-	console.error(err);
+	logger.error(err);
 	process.exit(1);
 });
 
-process.on('uncaughtException', (error, origin) => console.log(`\n${origin} signal received. \n${error}`));
-process.on('unhandledRejection', (error) => console.log(`\nunhandledRejection signal received. \n${error}`));
+process.on('uncaughtException', (error, origin) => logger.error(`\n${origin} signal received. \n${error}`));
+process.on('unhandledRejection', (error) => logger.error(`\nunhandledRejection signal received. \n${error}`));
