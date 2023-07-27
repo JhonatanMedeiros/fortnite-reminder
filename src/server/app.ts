@@ -16,7 +16,7 @@ app.get('/', (req, res) =>
 app.get('/cron', (req, res) => {
 	if (!job) {
 		return res.status(500).json({
-			message: 'Job not iniliazed!'
+			message: 'Job not initialized!'
 		})
 	}
 

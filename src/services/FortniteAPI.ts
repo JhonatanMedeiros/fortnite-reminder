@@ -7,14 +7,6 @@ const api = axios.create({ baseURL: BASE_URL });
 const FortniteAPI = {
 	shop: async () => {
 		return await api.get<FortniteAPI_SHOP>('/shop/br');
-	},
-	cosmetics: async () => {
-		const response = await api.get('/cosmetics/br');
-		return response.data;
-	},
-	cosmeticsBy: async (cosmetic) => {
-		const response = await api.get(`/cosmetics/br/${cosmetic}`);
-		return response.data;
 	}
 }
 
@@ -26,5 +18,12 @@ const getItemsFromShop = (shopData: FortniteAPI_SHOP): FortniteAPI_SHOP_Item[] =
 	}, []);
 }
 
+const getItemPhoto = (item: FortniteAPI_SHOP_Item): string | null => {
+	const { images } = item;
+	if (!images) return null;
+	const { featured, icon } = images;
+	return featured?.url || icon?.url || null;
+}
+
 export default FortniteAPI;
-export { getItemsFromShop };
+export { getItemsFromShop, getItemPhoto };

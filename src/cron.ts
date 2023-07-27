@@ -1,5 +1,5 @@
 import cron from 'cron';
-import FortniteAPI, { getItemsFromShop } from './services/FortniteAPI';
+import FortniteAPI, { getItemsFromShop, getItemPhoto } from './services/FortniteAPI';
 import TelegramAlert from './telegram';
 
 import { hasItemInShop } from './utils/reminder';
@@ -18,6 +18,17 @@ const start = async () => {
 
 		if (itemsToRemind.length > 0) {
 			await TelegramAlert.sendMessage(`🎉🎉🎉 ${itemsToRemind.length} items are available in the shop`);
+
+			const promises = itemsToRemind.map(async (item) => {
+				const photo_url = getItemPhoto(item);
+				if (photo_url) {
+					await TelegramAlert.sendPhoto(item?.name, photo_url);
+					return;
+				}
+				await TelegramAlert.sendMessage(item?.name);
+			});
+
+			await Promise.all(promises);
 		} else {
 			console.log('No items available in the shop');
 			await TelegramAlert.sendMessage('🚫 No items available in the shop');

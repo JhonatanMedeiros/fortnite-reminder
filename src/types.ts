@@ -24,6 +24,20 @@ export type FortniteAPI_SHOP_Daily = {
 	items: FortniteAPI_SHOP_Item[];
 }
 
+export type FortniteAPI_SHOP_Item_Image = {
+	hash: string;
+	url: string;
+}
+
+export type FortniteAPI_SHOP_Item_Images = {
+	smallIcon?: FortniteAPI_SHOP_Item_Image;
+	icon?: FortniteAPI_SHOP_Item_Image;
+	featured?: FortniteAPI_SHOP_Item_Image;
+	background?: FortniteAPI_SHOP_Item_Image;
+	coverArt?: FortniteAPI_SHOP_Item_Image;
+	decal?: FortniteAPI_SHOP_Item_Image;
+}
+
 export type FortniteAPI_SHOP_Item = {
 	id: string;
 	type: string;
@@ -38,7 +52,7 @@ export type FortniteAPI_SHOP_Item = {
 	setText?: any;
 	series?: any;
 	backendSeries?: any;
-	images: any;
+	images: FortniteAPI_SHOP_Item_Images;
 	variants?: any;
 	gameplayTags: string[];
 	displayAssetPath?: any;
